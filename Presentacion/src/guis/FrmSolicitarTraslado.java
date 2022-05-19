@@ -1,0 +1,510 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package guis;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import residuos_negocios.CtrlTraslados;
+
+/**
+ *
+ * @author Equipo 2 - Residuos peligrosos
+ */
+public class FrmSolicitarTraslado extends javax.swing.JFrame {
+
+    private final CtrlTraslados ctrlTraslados;
+    private String usuario;
+    
+    /**
+     * Creates new form FrmSolicitarTraslado
+     */
+    public FrmSolicitarTraslado() {
+        initComponents();
+        this.ctrlTraslados = new CtrlTraslados();
+        this.llenarTabla();
+        buttonGroup1.add(rbtnKilos);
+        buttonGroup1.add(rbtnLitros);
+        this.usuario = "Alberto";
+    }
+    
+    private void llenarTabla(){
+        DefaultTableModel modeloTabla = (DefaultTableModel)this.tblResiduosDisponibles.getModel();
+        modeloTabla = ctrlTraslados.llenarTablaResiduosDisponibles(modeloTabla);
+    }
+    
+    private String getNombreResiduoDisponibleSeleccionado(){
+        int indiceFilaSeleccionada = this.tblResiduosDisponibles.getSelectedRow();
+        if(indiceFilaSeleccionada != -1){
+            DefaultTableModel modelo = (DefaultTableModel)this.tblResiduosDisponibles.getModel();
+            int indiceColumnaNombre = 0;
+            String NombreResiduoDisponibleSeleccionado = (String) modelo.getValueAt(indiceFilaSeleccionada, 
+                indiceColumnaNombre);
+            return NombreResiduoDisponibleSeleccionado;
+        }else{
+            return null;
+        }
+    }
+    
+    private String getNombreResiduoElegidoSeleccionado(){
+        int indiceFilaSeleccionada = this.tblResiduosElegidos.getSelectedRow();
+        if(indiceFilaSeleccionada != -1){
+            DefaultTableModel modelo = (DefaultTableModel)this.tblResiduosElegidos.getModel();
+            int indiceColumnaNombre = 0;
+            String NombreResiduoElegidoSeleccionado = (String) modelo.getValueAt(indiceFilaSeleccionada, 
+                indiceColumnaNombre);
+            return NombreResiduoElegidoSeleccionado;
+        }else{
+            return null;
+        }
+    }
+    
+    private int getIndiceResiduoElegidoSeleccionado(){
+        int indiceFilaSeleccionada = this.tblResiduosElegidos.getSelectedRow();
+        if(indiceFilaSeleccionada != -1){
+            return indiceFilaSeleccionada;
+        }else{
+            return -1;
+        }
+    }
+    
+    private int getIndiceResiduoDisponibleSeleccionado(){
+        int indiceFilaSeleccionada = this.tblResiduosDisponibles.getSelectedRow();
+        if(indiceFilaSeleccionada != -1){
+            return indiceFilaSeleccionada;
+        }else{
+            return -1;
+        }
+    }
+    
+    private void agregarTablaResiduosElegidos()
+    {
+        DefaultTableModel modeloTablaResiduosElegidos = (DefaultTableModel)this.tblResiduosElegidos.getModel();
+        DefaultTableModel modeloTablaResiduosDisponibles = (DefaultTableModel)this.tblResiduosDisponibles.getModel();
+        String nombreQuimicoSeleccionado = getNombreResiduoDisponibleSeleccionado();
+        int idQuimicoSeleccionado = getIndiceResiduoDisponibleSeleccionado();
+        if(rbtnKilos.isSelected())
+        {
+            modeloTablaResiduosElegidos = ctrlTraslados.agregarTablaResiduosElegidos(modeloTablaResiduosElegidos, nombreQuimicoSeleccionado, Integer.parseInt(txtCantidad.getText()), "Kilos");
+        }
+        else
+        {
+            modeloTablaResiduosElegidos = ctrlTraslados.agregarTablaResiduosElegidos(modeloTablaResiduosElegidos, nombreQuimicoSeleccionado, Integer.parseInt(txtCantidad.getText()), "Litros");
+        }
+        modeloTablaResiduosDisponibles = ctrlTraslados.removerTablaResiduosDisponibles(modeloTablaResiduosDisponibles, idQuimicoSeleccionado);
+//        this.tblResiduosElegidos.setModel(modeloTabla);
+    }
+    
+    private void removerTablaResiduosElegidos()
+    {
+        DefaultTableModel modeloTablaResiduosElegidos = (DefaultTableModel)this.tblResiduosElegidos.getModel();
+        DefaultTableModel modeloTablaResiduosDisponibles = (DefaultTableModel)this.tblResiduosDisponibles.getModel();
+        String nombreResiduoElegidoSeleccionado = getNombreResiduoElegidoSeleccionado();
+        int indiceResiduoElegidoSeleccionado = getIndiceResiduoElegidoSeleccionado();
+        modeloTablaResiduosElegidos = ctrlTraslados.removerTablaResiduosElegidos(modeloTablaResiduosElegidos, indiceResiduoElegidoSeleccionado);
+        modeloTablaResiduosDisponibles = ctrlTraslados.agregarTablaResiduosDisponibles(modeloTablaResiduosDisponibles, nombreResiduoElegidoSeleccionado);
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblResiduosDisponibles = new javax.swing.JTable();
+        datePickerTraslado = new com.github.lgooddatepicker.components.DatePicker();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblResiduosElegidos = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        btnAgregar = new javax.swing.JButton();
+        btnRemover = new javax.swing.JButton();
+        txtCantidad = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        btnGuardar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        rbtnKilos = new javax.swing.JRadioButton();
+        rbtnLitros = new javax.swing.JRadioButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Solicitar traslado");
+
+        tblResiduosDisponibles.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "Residuos Disponibles"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblResiduosDisponibles);
+        if (tblResiduosDisponibles.getColumnModel().getColumnCount() > 0) {
+            tblResiduosDisponibles.getColumnModel().getColumn(0).setResizable(false);
+        }
+
+        tblResiduosElegidos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Residuos Seleccionados", "Cantidad", "Unidad"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tblResiduosElegidos);
+        if (tblResiduosElegidos.getColumnModel().getColumnCount() > 0) {
+            tblResiduosElegidos.getColumnModel().getColumn(0).setResizable(false);
+            tblResiduosElegidos.getColumnModel().getColumn(1).setResizable(false);
+            tblResiduosElegidos.getColumnModel().getColumn(1).setPreferredWidth(30);
+            tblResiduosElegidos.getColumnModel().getColumn(2).setResizable(false);
+            tblResiduosElegidos.getColumnModel().getColumn(2).setPreferredWidth(20);
+        }
+
+        jLabel1.setText("Fecha:");
+
+        btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
+
+        btnRemover.setText("Remover");
+        btnRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoverActionPerformed(evt);
+            }
+        });
+
+        txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyTyped(evt);
+            }
+        });
+
+        jLabel2.setText("Cantidad:");
+
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        rbtnKilos.setText("Kilos");
+        rbtnKilos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnKilosActionPerformed(evt);
+            }
+        });
+
+        rbtnLitros.setText("Litros");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnGuardar)
+                                .addGap(49, 49, 49)
+                                .addComponent(btnCancelar)
+                                .addGap(0, 30, Short.MAX_VALUE))
+                            .addComponent(datePickerTraslado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(5, 5, 5)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+                                        .addComponent(txtCantidad))
+                                    .addComponent(btnRemover, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)))
+                            .addComponent(rbtnLitros)
+                            .addComponent(rbtnKilos))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(datePickerTraslado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnGuardar)
+                            .addComponent(btnCancelar))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addComponent(btnAgregar)
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(rbtnKilos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rbtnLitros)
+                        .addGap(12, 12, 12)
+                        .addComponent(btnRemover)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+
+        pack();
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        // TODO add your handling code here:
+        if(getNombreResiduoDisponibleSeleccionado() != null)
+        {
+            if(!txtCantidad.getText().equals("") && Integer.parseInt(txtCantidad.getText()) != 0)
+            {
+                if(buttonGroup1.getSelection() != null)
+                {
+                    agregarTablaResiduosElegidos();
+                    txtCantidad.setText("");
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(this, "Debes elegir una unidad de medición", 
+                    "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this, "Debes introducir una cantidad", 
+                "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar un residuo disponible", 
+                "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
+        // TODO add your handling code here:
+        if(getIndiceResiduoElegidoSeleccionado() != -1)
+        {
+            removerTablaResiduosElegidos();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar un residuo", 
+                "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnRemoverActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        if(datePickerTraslado.getDateStringOrEmptyString().equalsIgnoreCase(""))
+        {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar una fecha", 
+                "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+        else
+        {
+            Calendar fechaHoy = new GregorianCalendar();
+            fechaHoy.set(Calendar.HOUR_OF_DAY, 0);
+            fechaHoy.set(Calendar.MINUTE, 0);
+            fechaHoy.set(Calendar.SECOND, 0);
+            fechaHoy.set(Calendar.MILLISECOND, 0);
+            Calendar fechaElegida = new GregorianCalendar();
+            int añoElegido = Integer.parseInt(datePickerTraslado.getDateStringOrEmptyString().substring(0, 4));
+            int mesElegido = Integer.parseInt(datePickerTraslado.getDateStringOrEmptyString().substring(5, 7));
+            int diaElegido = Integer.parseInt(datePickerTraslado.getDateStringOrEmptyString().substring(8, 10));
+            String añoElegidoCadena = datePickerTraslado.getDateStringOrEmptyString().substring(0, 4);
+            String mesElegidoCadena = datePickerTraslado.getDateStringOrEmptyString().substring(5, 7);
+            String diaElegidoCadena = datePickerTraslado.getDateStringOrEmptyString().substring(8, 10);
+            String fechaElegidaCadena = añoElegidoCadena+"-"+mesElegidoCadena+"-"+diaElegidoCadena;
+            fechaElegida.set(Calendar.YEAR, añoElegido);
+            fechaElegida.set(Calendar.MONTH, mesElegido-1);
+            fechaElegida.set(Calendar.DAY_OF_MONTH, diaElegido);
+            fechaElegida.set(Calendar.HOUR_OF_DAY, 23);
+            fechaElegida.set(Calendar.MINUTE, 59);
+            fechaElegida.set(Calendar.SECOND, 59);
+            fechaElegida.set(Calendar.MILLISECOND, 999);
+            if(fechaElegida.after(fechaHoy))
+            {
+                DefaultTableModel modeloTablaResiduosElegidos = (DefaultTableModel)this.tblResiduosElegidos.getModel();
+                
+                if(ctrlTraslados.verificarFormatoResiduosElegidos(modeloTablaResiduosElegidos))
+                {
+                    if(ctrlTraslados.verificarDisponibilidad(fechaElegidaCadena))
+                    {
+                        if(ctrlTraslados.verificarTrasladoProductorFechaResiduos(usuario, fechaElegidaCadena, modeloTablaResiduosElegidos))
+                        {
+                            ctrlTraslados.agregarSolicitudTraslado(usuario, fechaElegidaCadena, modeloTablaResiduosElegidos);
+                            JOptionPane.showMessageDialog(this, "Se agrego la solicitud exitosamente", 
+                                "Información", JOptionPane.INFORMATION_MESSAGE);
+                            new FrmPrincipal().setVisible(true);
+                            super.dispose();
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(this, "No se pueden hacer solicitudes repetidas", 
+                                "Advertencia", JOptionPane.WARNING_MESSAGE);
+                        }
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(this, "No hay disponibilidad en la fecha elegida", 
+                            "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(this, "Debe elegir al menos un residuo", 
+                        "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this, "La fecha debe ser mayor que la actual", 
+                "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void rbtnKilosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnKilosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbtnKilosActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        new FrmPrincipal().setVisible(true);
+        super.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if(!Character.isDigit(c))
+        {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCantidadKeyTyped
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(FrmSolicitarTraslado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(FrmSolicitarTraslado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(FrmSolicitarTraslado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(FrmSolicitarTraslado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new FrmSolicitarTraslado().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnRemover;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private com.github.lgooddatepicker.components.DatePicker datePickerTraslado;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JRadioButton rbtnKilos;
+    private javax.swing.JRadioButton rbtnLitros;
+    private javax.swing.JTable tblResiduosDisponibles;
+    private javax.swing.JTable tblResiduosElegidos;
+    private javax.swing.JTextField txtCantidad;
+    // End of variables declaration//GEN-END:variables
+}
